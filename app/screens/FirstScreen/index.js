@@ -15,16 +15,6 @@ export default class FirstScreen extends React.Component {
     componentDidMount() {
         const { navigation } = this.props;
         const { loading } = this.state
-        this.setState({ loading: true }, () => {
-            axios.get("https://api.androidhive.info/json/movies.json", {
-            }).then((response) => {
-                this.setState({ loading: false }, () => {
-                    this.setState({ imageToshow: response.data[2].image })
-                })
-            })
-        })
-
-
     }
     render() {
         const { navigation } = this.props;
@@ -32,9 +22,6 @@ export default class FirstScreen extends React.Component {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Loader modalVisible={loading}></Loader>
-                <Image style={{ width: '90%', height: '30%', borderRadius: 15, backgroundColor: 'black', marginTop: 20 }}
-                    source={{ uri: imageToshow }}>
-                </Image>
                 <Text style={{ fontSize: 25, marginTop: 10 }}>{valuetoshow}</Text>
                 <TouchableOpacity
                     onPress={() => {

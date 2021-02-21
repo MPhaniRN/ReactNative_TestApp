@@ -1,30 +1,46 @@
 import React from "react";
-import { View, ActivityIndicator,Text, TouchableOpacity } from "react-native";
+import { View, ActivityIndicator, Text, TouchableOpacity, Image } from "react-native";
 import { rootSwitch } from './../../config/navigator'
-
-export default class SecondScreen extends React.Component {
+import Loader from './../../Loader/index'
+import axios from 'axios'
+export default class Secondscreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            valuetoshow:'Second Page'
+            valuetoshow: 'First Page',
+            imageToshow: '',
+            loading: false
         };
     }
     componentDidMount() {
         const { navigation } = this.props;
-       
+        const { loading } = this.state
+        this.setState({ loading: true }, () => {
+            axios.get("https://api.androidhive.info/json/movies.json", {
+            }).then((response) => {
+                this.setState({ loading: false }, () => {
+                    this.setState({ imageToshow: response.data[2].image })
+                })
+            })
+        })
+
+
     }
     render() {
         const { navigation } = this.props;
-        const { valuetoshow } = this.state;
+        const { valuetoshow, imageToshow,loading } = this.state;
         return (
-            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                
-                <TouchableOpacity     
-                   onPress={()=>{
-                     navigation.navigate(rootSwitch.ThirdScreen)
-                   }}
-                   style={{width:'60%',height:50,borderRadius:30,backgroundColor:'black',marginTop:20,justifyContent:'center',alignItems:'center'}}>
-                  <Text style={{color:'white'}}>Button 2</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Loader modalVisible={loading}></Loader>
+                <Image style={{ width: '90%', height: '30%', borderRadius: 15, backgroundColor: 'black', marginTop: 20 }}
+                    source={{ uri: imageToshow }}>
+                </Image>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate(rootSwitch.ThirdScreen)
+                    }}
+                    style={{ width: '60%', height: 50, borderRadius: 30, backgroundColor: 'black', marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: 'white' }}>Button 2</Text>
                 </TouchableOpacity>
             </View>
         );

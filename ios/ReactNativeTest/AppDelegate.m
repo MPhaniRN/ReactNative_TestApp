@@ -3,7 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-
+#import <AVFoundation/AVFoundation.h>
 //#ifdef FB_SONARKIT_ENABLED
 //#import <FlipperKit/FlipperClient.h>
 //#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -30,6 +30,7 @@
 
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"ReactNativeTest"
                                             initialProperties:nil];
